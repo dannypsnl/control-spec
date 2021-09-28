@@ -1,17 +1,13 @@
-package idris-project
+package idris-unit
 
 readme = "README.md"
 version = 0.0.0
 license = "BSD3"
 authors = "Lîm Tsú-thuàn"
 maintainers = "Lîm Tsú-thuàn"
-homepage = "https://github.com/dannypsnl/idris-project"
+homepage = "https://github.com/dannypsnl/idris-unit"
 
 sourcedir = "src"
 builddir = "build"
-outputdir = "bin"
 
-executable = idris-project
-main = Main
-
-modules = Proof
+modules = IdrisUnit

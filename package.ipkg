@@ -1,0 +1,17 @@
+package idris-project
+
+readme = "README.md"
+version = 0.0.0
+license = "BSD3"
+authors = "Lîm Tsú-thuàn"
+maintainers = "Lîm Tsú-thuàn"
+homepage = "https://github.com/dannypsnl/idris-project"
+
+sourcedir = "src"
+builddir = "build"
+outputdir = "bin"
+
+executable = idris-project
+main = Main
+
+modules = Proof

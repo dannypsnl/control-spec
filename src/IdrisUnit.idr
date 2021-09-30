@@ -2,11 +2,9 @@ module IdrisUnit
 
 import Control.App
 
-data TestResult = Fail String
+data TestError = Fail String
 
-HasErr TestResult es where
-
-shouldBe : Has [Show, Eq] x => x -> x -> App es ()
+shouldBe : Exception TestError es => Has [Show, Eq] x => x -> x -> App es ()
 a `shouldBe` b = do
     if a == b
         then pure ()

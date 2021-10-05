@@ -8,8 +8,11 @@ cd idris-unit && idris2 --install package.ipkg
 ### Usage
 
 ```idris
-test : Console es => App es ()
-test = let s : HasErr TestError es2 => App es2 ()
-           s = 1+1 `shouldBe` 2
-       in it "1+1 = 2" s
+spec : Console es => App es ()
+spec = describe "example" $ do
+    context "arith" $ do
+        it "1+1 = 2" $ do
+            1+1 `shouldBe` 2
+        it "1*1 = 1" $ do
+            1*1 `shouldBe` 1
 ```

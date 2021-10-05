@@ -12,8 +12,24 @@ Show TestError where show (Fail message) = message
 
 ||| Example
 ||| ```idris2 example
-||| test : Console es => App es ()
-||| test = context "arith" $ do
+||| spec : Console es => App es ()
+||| spec = describe "example" $ do
+|||    context "arith" $ do
+|||        it "1+1 = 2" $ do
+|||            1+1 `shouldBe` 2
+|||        it "1*1 = 1" $ do
+|||            1*1 `shouldBe` 1
+||| ```
+export
+describe : Console es => String -> App es () -> App es ()
+describe text toRun = do
+    putStrLn text
+    toRun
+
+||| Example
+||| ```idris2 example
+||| spec : Console es => App es ()
+||| spec = context "arith" $ do
 |||     it "1+1 = 2" $ do
 |||         1+1 `shouldBe` 2
 |||     it "1*1 = 1" $ do
@@ -27,8 +43,8 @@ context text toRun = do
 
 ||| Example
 ||| ```idris2 example
-||| test : Console es => App es ()
-||| test = it "1+1 = 2" $ do
+||| spec : Console es => App es ()
+||| spec = it "1+1 = 2" $ do
 |||    1+1 `shouldBe` 2
 ||| ```
 export

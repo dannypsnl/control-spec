@@ -4,13 +4,13 @@ import IdrisUnit
 import Control.App
 import Control.App.Console
 
-test : Console es => App es ()
-test = context "arith" $ do
-    it "1+1 = 2" $ do
-        1+1 `shouldBe` 2
-    it "1+2 = 3" $ do
-        1+1 `shouldBe` 3
+spec : Console es => App es ()
+spec = describe "example" $ do
+    context "arith" $ do
+        it "1+1 = 2" $ do
+            1+1 `shouldBe` 2
+        it "1*1 = 1" $ do
+            1*1 `shouldBe` 1
 
 main : IO ()
-main = do
-    run test
+main = run spec

@@ -5,9 +5,9 @@ import Control.App
 import Control.App.Console
 
 test : Console es => App es ()
-test = let s : HasErr TestError es2 => App es2 ()
-           s = 1+1 `shouldBe` 2
-       in it "1+1 = 2" s
+test = it "1+1 = 2" $ do
+  1+1 `shouldBe` 2
 
 main : IO ()
-main = run test
+main = do
+    run test

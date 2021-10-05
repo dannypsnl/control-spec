@@ -2,6 +2,8 @@ module IdrisUnit
 
 import Control.App
 import Control.App.Console
+import Language.Reflection
+%language ElabReflection
 
 public export
 data TestError = Fail String
@@ -11,9 +13,8 @@ Show TestError where show (Fail message) = message
 ||| Example
 ||| ```idris2 example
 ||| test : Console es => App es ()
-||| test = let s : HasErr TestError es2 => App es2 ()
-|||            s = 1+1 `shouldBe` 2
-|||        in it "1+1 = 2" s
+||| test = it "1+1 = 2" $ do
+|||    1+1 `shouldBe` 2
 ||| ```
 export
 it : Console es => String -> App (TestError :: es) () -> App es ()

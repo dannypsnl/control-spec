@@ -5,7 +5,6 @@ import Control.App.Console
 import Language.Reflection
 %language ElabReflection
 
-public export
 data TestError : Type where
     NotEq : Show x => x -> x -> TestError
 

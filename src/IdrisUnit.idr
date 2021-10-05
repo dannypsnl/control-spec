@@ -10,6 +10,15 @@ data TestError = Fail String
 
 Show TestError where show (Fail message) = message
 
+||| Example
+||| ```idris2 example
+||| test : Console es => App es ()
+||| test = context "arith" $ do
+|||     it "1+1 = 2" $ do
+|||         1+1 `shouldBe` 2
+|||     it "1*1 = 1" $ do
+|||         1*1 `shouldBe` 1
+||| ```
 export
 context : Console es => String -> App es () -> App es ()
 context text toRun = do

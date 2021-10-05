@@ -10,6 +10,12 @@ data TestError = Fail String
 
 Show TestError where show (Fail message) = message
 
+export
+context : Console es => String -> App es () -> App es ()
+context text toRun = do
+    putStrLn text
+    toRun
+
 ||| Example
 ||| ```idris2 example
 ||| test : Console es => App es ()

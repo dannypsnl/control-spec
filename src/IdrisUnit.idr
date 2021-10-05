@@ -6,9 +6,11 @@ import Language.Reflection
 %language ElabReflection
 
 public export
-data TestError = Fail String
+data TestError : Type where
+    NotEq : Show x => x -> x -> TestError
 
-Show TestError where show (Fail message) = message
+Show TestError where
+    show (NotEq a b) = show a ++ " != " ++ show b
 
 ||| Example
 ||| ```idris2 example
@@ -63,4 +65,4 @@ shouldBe : HasErr TestError es => Has [Show, Eq] x => x -> x -> App es ()
 a `shouldBe` b = do
     if a == b
         then pure ()
-        else throw $ Fail $ show a ++ " != " ++ show b
+        else throw $ NotEq a b

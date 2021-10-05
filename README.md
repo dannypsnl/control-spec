@@ -1,5 +1,9 @@
 # IdrisUnit
 
+IdrisUnit is a unit test framework for Idris2.
+
+### Installation
+
 ```shell
 git clone https://github.com/dannypsnl/idris-unit.git
 cd idris-unit && idris2 --install package.ipkg

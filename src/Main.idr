@@ -5,9 +5,8 @@ import Control.App
 import Control.App.Console
 
 hanoi : Int -> a -> a -> a -> List (a, a)
-hanoi n a b c = if n == 1
-    then [(a, c)]
-    else hanoi (n-1) a c b ++ [(a, c)] ++ hanoi (n-1) b a c
+hanoi 1 a b c = [(a, c)]
+hanoi n a b c = hanoi (n-1) a c b ++ [(a, c)] ++ hanoi (n-1) b a c
 
 spec : Console es => App es ()
 spec = do
@@ -24,5 +23,4 @@ spec = do
             hanoi 4 'A' 'B' 'C' `shouldBe` [('A', 'B'), ('A', 'C'), ('B', 'C'), ('A', 'B'), ('C', 'A'), ('C', 'B'), ('A', 'B'), ('A', 'C'), ('B', 'C'), ('B', 'A'), ('C', 'A'), ('B', 'C'), ('A', 'B'), ('A', 'C'), ('B', 'C')]
 
 main : IO ()
-main = do
-    run spec
+main = run spec

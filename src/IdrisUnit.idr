@@ -59,6 +59,10 @@ it text toRun = handle toRun
         printError : Console es' => TestError -> App es' ()
         printError err = putStrLn $ "failed: " ++ show err
 
+||| Example
+||| ```idris2 example
+||| a `shouldBe` b
+||| ```
 export
 shouldBe : HasErr TestError es => Has [Show, Eq] x => x -> x -> App es ()
 a `shouldBe` b = do

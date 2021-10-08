@@ -5,6 +5,7 @@ import Control.App
 import Control.App.Console
 
 hanoi : Int -> a -> a -> a -> List (a, a)
+hanoi 0 a b c = []
 hanoi 1 a b c = [(a, c)]
 hanoi n a b c = hanoi (n-1) a c b ++ [(a, c)] ++ hanoi (n-1) b a c
 

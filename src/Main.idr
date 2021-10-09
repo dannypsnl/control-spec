@@ -9,7 +9,7 @@ hanoi 0 a b c = []
 hanoi 1 a b c = [(a, c)]
 hanoi n a b c = hanoi (n-1) a c b ++ [(a, c)] ++ hanoi (n-1) b a c
 
-spec : Console es => App es ()
+spec : Spec es => App es ()
 spec = do
     describe "example" $ do
         context "arith" $ do

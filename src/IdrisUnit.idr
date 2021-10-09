@@ -11,15 +11,14 @@ data TestError : Type where
 Show TestError where
     show (NotEq a b) = show a ++ " != " ++ show b
 
-||| Example
-||| ```idris2 example
-||| spec : Console es => App es ()
+||| ```
+||| spec : Spec es => App es ()
 ||| spec = describe "example" $ do
-|||    context "arith" $ do
-|||        it "1+1 = 2" $ do
-|||            1+1 `shouldBe` 2
-|||        it "1*1 = 1" $ do
-|||            1*1 `shouldBe` 1
+|||     context "arith" $ do
+|||         it "1+1 = 2" $ do
+|||             1+1 `shouldBe` 2
+|||         it "1*1 = 1" $ do
+|||             1*1 `shouldBe` 1
 ||| ```
 public export
 interface Spec es where
@@ -44,8 +43,7 @@ Console es => Spec es where
         printError : Console es' => TestError -> App es' ()
         printError err = putStrLn $ "failed: " ++ show err
 
-||| Example
-||| ```idris2 example
+||| ```
 ||| a `shouldBe` b
 ||| ```
 export

@@ -11,12 +11,6 @@ data TestError : Type where
 Show TestError where
     show (NotEq a b) = show a ++ " != " ++ show b
 
-public export
-interface Spec es where
-  describe : String -> App es () -> App es ()
-  context : String -> App es () -> App es ()
-  it : String -> App (TestError :: es) () -> App es ()
-
 ||| Example
 ||| ```idris2 example
 ||| spec : Console es => App es ()
@@ -27,6 +21,12 @@ interface Spec es where
 |||        it "1*1 = 1" $ do
 |||            1*1 `shouldBe` 1
 ||| ```
+public export
+interface Spec es where
+  describe : String -> App es () -> App es ()
+  context : String -> App es () -> App es ()
+  it : String -> App (TestError :: es) () -> App es ()
+
 export
 Console es => Spec es where
   describe text toRun = do

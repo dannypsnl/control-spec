@@ -2,8 +2,6 @@ module IdrisUnit
 
 import Control.App
 import Control.App.Console
-import Language.Reflection
-%language ElabReflection
 
 data TestError : Type where
     NotEq : Show x => x -> x -> TestError

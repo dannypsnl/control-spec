@@ -33,7 +33,8 @@ Console es => Spec es where
     putStrLn text
     toRun
   it text toRun = handle toRun
-    (\_ => pure ())
+    (\_ => do
+        putStrLn $ "test: " ++ text ++ " passed")
     (\err => do
         putStrLn $ "test: " ++ text
         printError err)

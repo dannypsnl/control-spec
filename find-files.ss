@@ -4,4 +4,4 @@
 
 (map pretty-print
     (filter (lambda (x) (string-suffix? "Spec.idr" x))
-        (directory-list "src")))
+        (directory-list "test")))

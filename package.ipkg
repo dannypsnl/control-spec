@@ -9,7 +9,4 @@ homepage = "https://github.com/dannypsnl/idris-unit"
 
 sourcedir = "src"
 
-executable = test
-main = Main
-
 modules = IdrisUnit

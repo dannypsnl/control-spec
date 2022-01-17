@@ -3,5 +3,5 @@
         (srfi :13))
 
 (map pretty-print
-    (filter (lambda (x) (string-suffix? ".idr" x))
+    (filter (lambda (x) (string-suffix? "Spec.idr" x))
         (directory-list "src")))

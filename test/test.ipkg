@@ -1,0 +1,8 @@
+package idris-unit-test
+
+sourcedir = "test"
+
+executable = test
+main = HelloSpec
+
+modules = IdrisUnit

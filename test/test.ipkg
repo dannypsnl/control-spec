@@ -5,4 +5,4 @@ sourcedir = "test"
 executable = test
 main = HelloSpec
 
-modules = IdrisUnit
+modules = IUnit

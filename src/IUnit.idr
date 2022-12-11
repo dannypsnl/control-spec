@@ -1,4 +1,4 @@
-module IdrisUnit
+module IUnit
 
 import Control.App
 import Control.App.Console

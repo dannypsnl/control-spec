@@ -1,6 +1,6 @@
 module Main
 
-import IdrisUnit
+import IUnit
 import Control.App
 import Control.App.Console
 

@@ -1,12 +1,12 @@
 package idris-unit
-
-readme = "README.md"
 version = 0.0.0
+readme = "README.md"
 license = "BSD3"
-authors = "Lîm Tsú-thuàn"
-maintainers = "Lîm Tsú-thuàn"
+authors = "dannypsnl"
+maintainers = "dannypsnl"
+
 homepage = "https://github.com/dannypsnl/idris-unit"
 
 sourcedir = "src"
 
-modules = IdrisUnit
+modules = IUnit

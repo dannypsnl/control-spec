@@ -9,4 +9,8 @@ homepage = "https://github.com/dannypsnl/control-spec"
 
 sourcedir = "src"
 
+depends = contrib
 modules = Control.App.Spec
+
+main = SpecDiscover
+executable = spec-discover

@@ -1,7 +1,0 @@
-package control-spec-run
-
-depends = control-spec
-
-modules = HelloSpec
-main = Main
-executable = runAll

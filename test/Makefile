@@ -2,4 +2,4 @@
 
 all:
 	@idris2 --build test.ipkg
-	@./build/exec/runAll
+	@./build/exec/runAllTests

@@ -4,13 +4,13 @@ import Control.App
 import Control.App.Console
 
 data TestError : Type where
-    NotEq : Show x => x -> x -> TestError
+  NotEq : Show x => x -> x -> TestError
 
 Show TestError where
-    show (NotEq a b) = show a ++ " != " ++ show b
+  show (NotEq a b) = show a ++ " != " ++ show b
 
 ||| ```
-||| spec : Spec es => App es ()
+||| spec : Spec Init => App Init ()
 ||| spec = describe "example" $ do
 |||     context "arith" $ do
 |||         it "1+1 = 2" $ do
@@ -20,34 +20,28 @@ Show TestError where
 ||| ```
 public export
 interface Spec es where
-  describe : String -> App es () -> App es ()
-  context : String -> App es () -> App es ()
-  it : String -> App (TestError :: es) () -> App es ()
+  describe : String -> App {l} es () -> App {l} es ()
+  context : String -> App {l} es () -> App {l} es ()
+  it : String -> App {l=MayThrow} (TestError :: es) () -> App {l=MayThrow} es ()
 
 export
-Console es => Spec es where
-  describe text toRun = do
-    putStrLn text
-    toRun
-  context text toRun = do
-    putStrLn text
-    toRun
-  it text toRun = handle toRun
-    (\_ => do
-        putStrLn $ "test: " ++ text ++ " passed")
-    (\err => do
-        putStrLn $ "test: " ++ text
-        printError err)
+Has [Console] es => Spec es where
+  describe text toRun = putStrLn text *> toRun
+  context text toRun = putStrLn text *> toRun
+  it text toRun = do
+    putStr $ "test: " ++ text
+    handle toRun
+      (\_ => putStrLn " passed")
+      printError
     where
-        printError : Console es' => TestError -> App es' ()
-        printError err = putStrLn $ "failed: " ++ show err
+      printError : Has [Console] es' => TestError -> App es' ()
+      printError err = putStrLn $ "failed: " ++ show err
 
 ||| ```
 ||| a `shouldBe` b
 ||| ```
 export
 shouldBe : HasErr TestError es => Has [Show, Eq] x => x -> x -> App es ()
-a `shouldBe` b = do
-    if a == b
-        then pure ()
-        else throw $ NotEq a b
+a `shouldBe` b = if a == b
+  then pure ()
+  else throw $ NotEq a b

@@ -1,8 +1,6 @@
 package idris-unit-test
 
-sourcedir = "test"
+depends = idris-unit
 
-executable = test
-main = HelloSpec
-
-modules = IUnit
+modules = HelloSpec
+main = Main

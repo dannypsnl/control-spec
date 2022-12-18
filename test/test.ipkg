@@ -1,6 +1,7 @@
-package idris-unit-test
+package control-spec-run
 
-depends = idris-unit
+depends = control-spec
 
 modules = HelloSpec
 main = Main
+executable = runAll

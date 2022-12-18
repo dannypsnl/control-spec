@@ -1,12 +1,12 @@
-package idris-unit
+package control-spec
 version = 0.0.0
 readme = "README.md"
 license = "BSD3"
 authors = "dannypsnl"
 maintainers = "dannypsnl"
 
-homepage = "https://github.com/dannypsnl/idris-unit"
+homepage = "https://github.com/dannypsnl/control-spec"
 
 sourcedir = "src"
 
-modules = IUnit
+modules = Control.App.Spec

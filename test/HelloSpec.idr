@@ -1,8 +1,8 @@
 module HelloSpec
 
-import IUnit
 import Control.App
 import Control.App.Console
+import Control.App.Spec
 
 hanoi : Int -> a -> a -> a -> List (a, a)
 hanoi 0 a b c = []

@@ -1,16 +1,16 @@
-.PHONY: all install test doc clean
+.PHONY: all install doc clean runAll
 
 all:
-	@idris2 --build ./iunit.ipkg
+	@idris2 --build ./control-spec.ipkg
 
 install:
-	@idris2 --install ./iunit.ipkg
-
-test:
-	@idris2 --build ./test/test.ipkg
+	@idris2 --install ./control-spec.ipkg
 
 doc:
-	@idris2 --mkdoc ./iunit.ipkg
+	@idris2 --mkdoc ./control-spec.ipkg
 
 clean:
-	@idris2 --clean ./iunit.ipkg
+	@idris2 --clean ./control-spec.ipkg
+
+runAll: all
+	@make -C test

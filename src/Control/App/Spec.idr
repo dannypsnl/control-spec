@@ -1,4 +1,4 @@
-module IUnit
+module Control.App.Spec
 
 import Control.App
 import Control.App.Console

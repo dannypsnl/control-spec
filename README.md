@@ -1,22 +1,24 @@
-# IdrisUnit
+# Control Spec
 
-IdrisUnit is a unit test framework for Idris2.
+The project is a unit test framework for [idris2](https://idris2.readthedocs.io/en/latest/index.html), it follows the [app structure](https://idris2.readthedocs.io/en/latest/app/interfaces.html).
 
 ### Installation
 
 ```shell
-git clone https://github.com/dannypsnl/idris-unit.git
-cd idris-unit && idris2 --install package.ipkg
+git clone git@github.com:dannypsnl/control-spec.git
+cd control-spec && make install
 ```
 
 ### Usage
 
 ```idris
-spec : Console es => App es ()
+import Control.App
+import Control.App.Console
+import Control.App.Spec
+
+spec : Spec Init => App Init ()
 spec = describe "example" $ do
-    context "arith" $ do
-        it "1+1 = 2" $ do
-            1+1 `shouldBe` 2
-        it "1*1 = 1" $ do
-            1*1 `shouldBe` 1
+  context "arith" $ do
+    it "1+1 = 2" $ 1+1 `shouldBe` 2
+    it "1*1 = 1" $ 1*1 `shouldBe` 1
 ```

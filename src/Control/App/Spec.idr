@@ -1,7 +1,7 @@
 module Control.App.Spec
 
 import Control.App
-import Control.App.Console
+import public Control.App.Console
 
 data TestError : Type where
   NotEq : Show x => x -> x -> TestError

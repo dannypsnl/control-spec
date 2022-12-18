@@ -1,7 +1,6 @@
 module HelloSpec
 
 import Control.App
-import Control.App.Console
 import Control.App.Spec
 
 hanoi : Int -> a -> a -> a -> List (a, a)

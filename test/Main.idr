@@ -1,7 +1,6 @@
 module Main
 
 import Control.App
-import Control.App.Console
 import Control.App.Spec
 
 import HelloSpec

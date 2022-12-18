@@ -18,7 +18,6 @@ main = do
   let specs = map (\s => fst $ String.break (== '.') s) specFiles
   f <- openFile "\{dir}/Main.idr" WriteTruncate
   let file = case f of
-               Left _ => ?err
                Right f => f
   _ <- fPutStrLn file "module Main"
   _ <- fPutStrLn file $ unlines (map (\s => "import \{s}") specs)
@@ -30,7 +29,6 @@ main = do
 
   f <- openFile "\{dir}/test.ipkg" WriteTruncate
   let file = case f of
-               Left _ => ?err2
                Right f => f
   _ <- fPutStrLn file "package mesnrklesbkbdsjfbdkfjbdskjfds"
   _ <- fPutStrLn file "depends = control-spec, contrib"

@@ -2,12 +2,20 @@ module Control.App.Spec
 
 import Control.App
 import public Control.App.Console
+import Data.String
+import Text.PrettyPrint.Prettyprinter.Doc
+import Text.PrettyPrint.Prettyprinter.Render.Terminal
 
 data TestError : Type where
   NotEq : Show x => x -> x -> TestError
 
-Show TestError where
-  show (NotEq a b) = show a ++ " != " ++ show b
+prettyTestError : TestError -> Doc ann
+prettyTestError (NotEq a b) = hsep [pretty $ show a, "!=", pretty $ show b]
+
+record SpecState where
+  constructor MkState
+  testName : List String
+  fails : List (List String, TestError)
 
 ||| ```
 ||| spec : Spec Init => App Init ()
@@ -19,29 +27,50 @@ Show TestError where
 |||             1*1 `shouldBe` 1
 ||| ```
 public export
-interface Spec es where
-  describe : String -> App {l} es () -> App {l} es ()
-  context : String -> App {l} es () -> App {l} es ()
-  it : String -> App {l=MayThrow} (TestError :: es) () -> App {l=MayThrow} es ()
+interface Has [State SpecState SpecState] e => Spec e where
+  describe : String -> App e () -> App e ()
+  context : String -> App e () -> App e ()
+  it : String -> App (TestError :: e) () -> App e ()
+
+restack : Spec e => String -> App e ()
+restack text = do
+  s <- get SpecState
+  put SpecState $ { testName := [text] } s
+stack : Spec e => String -> App e ()
+stack text = do
+  s <- get SpecState
+  put SpecState $ { testName := s.testName ++ [text] } s
 
 export
-Has [Console] es => Spec es where
-  describe text toRun = putStrLn text *> toRun
-  context text toRun = putStrLn text *> toRun
+Has [State SpecState SpecState] e => Spec e where
+  describe text toRun = restack text *> toRun
+  context text toRun = stack text *> toRun
   it text toRun = do
-    putStr $ "test: " ++ text
+    stack "test:"
+    stack text
     handle toRun
-      (\_ => putStrLn " passed")
-      printError
-    where
-      printError : Has [Console] es' => TestError -> App es' ()
-      printError err = putStrLn $ "failed: " ++ show err
+      (\_ => pure ())
+      (\err : TestError => do
+        s <- get SpecState
+        put SpecState $ { fails := (s.testName, err) :: s.fails } s
+        )
+
+export
+specInit : (Has [State SpecState SpecState] e => App e ()) -> App e ()
+specInit app = new (MkState [] []) app
+
+export
+specFinalReport : Has [PrimIO, Spec] e => App e ()
+specFinalReport = do
+  state <- get SpecState
+  for_ state.fails $ \(stack, err) =>
+    primIO $ putDoc $ annotate (color Red) $ vsep (map pretty stack) <++> prettyTestError err
 
 ||| ```
 ||| a `shouldBe` b
 ||| ```
 export
-shouldBe : HasErr TestError es => Has [Show, Eq] x => x -> x -> App es ()
+shouldBe : HasErr TestError e => Has [Show, Eq] x => x -> x -> App e ()
 a `shouldBe` b = if a == b
   then pure ()
   else throw $ NotEq a b

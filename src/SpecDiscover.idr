@@ -23,7 +23,7 @@ main = do
   _ <- fPutStrLn file $ unlines (map (\s => "import \{s}") specs)
   _ <- fPutStrLn file "main : IO ()"
   _ <- fPutStrLn file "main = do"
-  _ <- fPutStrLn file $ unlines (map (\s => "  run \{s}.spec") specs)
+  _ <- fPutStrLn file $ unlines (map (\s => "  run $ new emptyState \{s}.spec") specs)
   fflush file
   closeFile file
 

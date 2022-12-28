@@ -56,8 +56,8 @@ Has [State SpecState SpecState] e => Spec e where
         )
 
 export
-specInit : (Has [State SpecState SpecState] e => App e ()) -> App e ()
-specInit app = new (MkState [] []) app
+emptyState : SpecState
+emptyState = MkState [] []
 
 export
 specFinalReport : Has [PrimIO, Spec] e => App e ()

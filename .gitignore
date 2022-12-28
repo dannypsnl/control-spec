@@ -1,1 +1,4 @@
 build/
+# nix
+result
+.direnv

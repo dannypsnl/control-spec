@@ -32,39 +32,59 @@ interface Has [State SpecState SpecState] e => Spec e where
   context : String -> App e () -> App e ()
   it : String -> App (TestError :: e) () -> App e ()
 
-restack : Spec e => String -> App e ()
-restack text = do
+push : Spec e => String -> App e ()
+push text = do
   s <- get SpecState
-  put SpecState $ { testName := [text] } s
-stack : Spec e => String -> App e ()
-stack text = do
+  put SpecState $ { testName := text :: s.testName } s
+pop : Spec e => App e ()
+pop = do
   s <- get SpecState
-  put SpecState $ { testName := s.testName ++ [text] } s
+  put SpecState $ { testName := drop 1 s.testName } s
 
 export
 Has [State SpecState SpecState] e => Spec e where
-  describe text toRun = restack text *> toRun
-  context text toRun = stack text *> toRun
+  describe text toRun = push text *> toRun *> pop
+  context text toRun = push text *> toRun *> pop
   it text toRun = do
-    stack "test:"
-    stack text
+    push $ "test: " ++ text
     handle toRun
-      (\_ => pure ())
+      (\_ => pop)
       (\err : TestError => do
         s <- get SpecState
-        put SpecState $ { fails := (s.testName, err) :: s.fails } s
+        put SpecState $ { fails := (reverse s.testName, err) :: s.fails } s
+        pop
         )
 
 export
 emptyState : SpecState
 emptyState = MkState [] []
 
+bold' : Doc AnsiStyle -> Doc AnsiStyle
+bold' = annotate bold
+color' : Color -> Doc AnsiStyle -> Doc AnsiStyle
+color' = annotate . color
+
+putContext : Has [PrimIO] e => Int -> List String -> App e ()
+putContext n (c::ctx) = do
+  primIO $ putDoc $ bold' $ indent n $ pretty c
+  putContext (n+1) ctx
+putContext n [] = pure ()
+
+reportFails : Has [PrimIO, Spec] e => List (List String, TestError) -> App e ()
+reportFails fails = do
+  primIO $ putDoc $ bold' $ color' Red $
+    pretty (length fails) <++> "tests failed"
+  for_ fails $ \(contexts, err) => do
+    putContext 0 contexts
+    primIO $ putDoc $ bold' $ color' Red $ prettyTestError err
+
 export
 specFinalReport : Has [PrimIO, Spec] e => App e ()
 specFinalReport = do
   state <- get SpecState
-  for_ state.fails $ \(stack, err) =>
-    primIO $ putDoc $ annotate (color Red) $ vsep (map pretty stack) <++> prettyTestError err
+  case state.fails of
+    [] => primIO $ putDoc $ bold' $ color' Green $ "all tests passed"
+    _ => reportFails state.fails
 
 ||| ```
 ||| a `shouldBe` b

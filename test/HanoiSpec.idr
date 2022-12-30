@@ -9,7 +9,7 @@ hanoi 1 a b c = [(a, c)]
 hanoi n a b c = hanoi (n-1) a c b ++ [(a, c)] ++ hanoi (n-1) b a c
 
 public export
-spec : Spec Init => App Init ()
+spec : Spec e => App e ()
 spec = do
   describe "hanoi" $ do
     it "3 level" $ do

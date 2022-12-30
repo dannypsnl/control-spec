@@ -20,7 +20,7 @@ import Control.App
 import Control.App.Spec
 
 export
-spec : Spec Init => App Init ()
+spec : Spec e => App e ()
 spec = describe "example" $ do
   context "arith" $ do
     it "1+1 = 2" $ 1+1 `shouldBe` 2

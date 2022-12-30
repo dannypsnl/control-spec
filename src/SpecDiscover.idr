@@ -17,7 +17,7 @@ putIOError e = primIO ((putDoc $ pretty $ show e) *> exitSuccess)
 
 mainModule : FileIO e => List String -> File -> App e ()
 mainModule specs file = do
-  fPutStrLn file "module Main"
+  fPutStrLn file "module AllTests"
   fPutStrLn file "import Control.App"
   fPutStrLn file "import Control.App.Spec"
   fPutStrLn file $ unlines (map (\s => "import \{s}") specs)
@@ -31,7 +31,7 @@ ipkgTest : FileIO e => List String -> File -> App e ()
 ipkgTest specs file = do
   fPutStrLn file "package mesnrklesbkbdsjfbdkfjbdskjfds"
   fPutStrLn file "depends = control-spec, contrib"
-  fPutStrLn file "main = Main"
+  fPutStrLn file "main = AllTests"
   fPutStrLn file "executable = runAllTests"
   fPutStrLn file $ "modules = " ++ joinBy "," specs
   fflush file
@@ -44,7 +44,7 @@ entry [dir] = do
         fileTree
   let specFiles = map fileName allFiles
   let specs = map (\s => fst $ String.break (== '.') s) specFiles
-  withFile "\{dir}/Main.idr" WriteTruncate putIOError (mainModule specs)
+  withFile "\{dir}/AllTests.idr" WriteTruncate putIOError (mainModule specs)
   withFile "\{dir}/test.ipkg" WriteTruncate putIOError (ipkgTest specs)
 entry _ = primIO $ putDoc
   $ annotate bold

@@ -18,6 +18,8 @@ putIOError e = primIO ((putDoc $ pretty $ show e) *> exitSuccess)
 mainModule : FileIO e => List String -> File -> App e ()
 mainModule specs file = do
   fPutStrLn file "module Main"
+  fPutStrLn file "import Control.App"
+  fPutStrLn file "import Control.App.Spec"
   fPutStrLn file $ unlines (map (\s => "import \{s}") specs)
   fPutStrLn file "main : IO ()"
   fPutStrLn file "main = do run (new emptyState (do"

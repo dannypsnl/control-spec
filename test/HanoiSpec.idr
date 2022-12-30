@@ -1,7 +1,7 @@
 module HanoiSpec
 
-import public Control.App
-import public Control.App.Spec
+import Control.App
+import Control.App.Spec
 
 hanoi : Int -> a -> a -> a -> List (a, a)
 hanoi 0 a b c = []

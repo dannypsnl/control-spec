@@ -19,7 +19,7 @@
 
         control-spec = stdenv.mkDerivation {
           name = "control-spec";
-          version = "0.0.0";
+          version = "0.1.0";
           src = ./.;
 
           buildInputs = [ idris2 ];

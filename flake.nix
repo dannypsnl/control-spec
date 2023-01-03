@@ -27,7 +27,7 @@
             idris2 --build ./control-spec.ipkg
           '';
           installPhase = ''
-            export HOME=$(pwd)
+            IDRIS2_PREFIX=$out idris2 --install ./control-spec.ipkg
             mkdir -p $out/bin
             mv ./build/exec/* $out/bin/
           '';

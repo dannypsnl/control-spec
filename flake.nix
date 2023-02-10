@@ -24,10 +24,10 @@
 
           buildInputs = [ idris2 ];
           buildPhase = ''
-            idris2 --build ./control-spec.ipkg
+            idris2 --build
           '';
           installPhase = ''
-            IDRIS2_PREFIX=$out idris2 --install ./control-spec.ipkg
+            IDRIS2_PREFIX=$out idris2 --install
             mkdir -p $out/bin
             mv ./build/exec/* $out/bin/
           '';

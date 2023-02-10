@@ -1,16 +1,16 @@
 .PHONY: all install doc clean run runAll
 
 all:
-	@idris2 --build ./control-spec.ipkg
+	@idris2 --build
 
 install:
-	@idris2 --install ./control-spec.ipkg
+	@idris2 --install
 
 doc:
-	@idris2 --mkdoc ./control-spec.ipkg
+	@idris2 --mkdoc
 
 clean:
-	@idris2 --clean ./control-spec.ipkg
+	@idris2 --clean
 
 run: all
 	@./build/exec/spec-discover test

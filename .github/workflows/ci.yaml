@@ -1,11 +1,17 @@
 on:
   push:
+    paths:
+      - "**.idr"
+      - "**.yaml"
   pull_request:
+    branches: [main]
 
 name: Run Tests
 
 jobs:
   test:
+    env:
+      DETECTED_SCHEME: racket
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +24,6 @@ jobs:
       - name: install idris2-pack
         run: |
           set -o pipefail
-          export DETECTED_SCHEME=racket
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
           echo "$HOME/.pack/bin" >> $GITHUB_PATH
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version

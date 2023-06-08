@@ -1,0 +1,10 @@
+[custom.all.control-spec]
+type = "local"
+path = "."
+ipkg = "control-spec.ipkg"
+test = "test/test.ipkg"
+
+[custom.all.control-spec-test]
+type = "local"
+path = "test"
+ipkg = "test.ipkg"

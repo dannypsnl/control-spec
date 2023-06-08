@@ -38,5 +38,7 @@ jobs:
       - name: Test
         run: |
           pack install-app control-spec
+          echo "$HOME/.pack/bin" >> $GITHUB_PATH
+          source $HOME/.profile
           spec-discover test
           pack test control-spec

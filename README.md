@@ -6,14 +6,15 @@ The project is a unit test framework for [idris2](https://idris2.readthedocs.io/
 
 ```shell
 git clone git@github.com:dannypsnl/control-spec.git
-cd control-spec && make install
+cd control-spec && pack install control-spec
 # discover
-export PATH=$(pwd)/build/exec:$PATH
+pack install-app control-spec
+export PATH=${HOME}/.pack/bin
 ```
 
 ### Usage
 
-You can write a `Spec` as below in a file named `test/XxxSpec.idr`
+You can write a `Spec` as below in a file named `test/src/XxxSpec.idr`
 
 ```idris
 import Control.App
@@ -35,4 +36,8 @@ idris2 --build test/test.ipkg
 ./test/build/exec/runAllTests
 ```
 
-You might want to ignore `test/Main.idr` and `test/test.ipkg` in this case.
+You might want to ignore `test/src/Main.idr` and `test/test.ipkg`. If you are using [pack](https://github.com/stefan-hoeck/idris2-pack#quick-installation), then you can just use below command to make it work!
+
+```shell
+pack test <your-package>
+```

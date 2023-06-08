@@ -15,6 +15,12 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Cache Pack
+        id: cache-pack
+        uses: actions/cache/restore@v3
+        with:
+          path: $HOME/.pack/bin
+          key: ${{ runner.os }}
       - uses: Bogdanp/setup-racket@v1.10
         with:
           architecture: "x64"
@@ -22,6 +28,7 @@ jobs:
           variant: "CS"
           version: "stable"
       - name: install idris2-pack
+        if: steps.cache-pack.outputs.cache-hit != 'true'
         run: |
           set -o pipefail
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/dannypsnl/idris2-pack/main/install.bash)"
@@ -29,4 +36,7 @@ jobs:
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version
       - uses: actions/checkout@v3
       - name: Test
-        run: pack test control-spec
+        run: |
+          pack install-app control-spec
+          spec-discover test
+          pack test control-spec

@@ -9,9 +9,16 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - uses: Bogdanp/setup-racket@v1.10
+        with:
+          architecture: "x64"
+          distribution: "full"
+          variant: "CS"
+          version: "stable"
       - name: install idris2-pack
         run: |
           set -o pipefail
+          export DETECTED_SCHEME=racket
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
           echo "$HOME/.pack/bin" >> $GITHUB_PATH
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version

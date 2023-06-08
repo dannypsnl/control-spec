@@ -1,2 +1,2 @@
-AllTests.idr
+src/Main.idr
 test.ipkg

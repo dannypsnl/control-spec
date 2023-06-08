@@ -24,7 +24,7 @@ jobs:
       - name: install idris2-pack
         run: |
           set -o pipefail
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/dannypsnl/idris2-pack/main/install.bash)"
           echo "$HOME/.pack/bin" >> $GITHUB_PATH
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version
       - uses: actions/checkout@v3

@@ -2,7 +2,7 @@ module Control.App.Spec
 
 import System
 import Control.App
-import public Control.App.Console
+import Control.App.Console
 import Data.String
 import Text.PrettyPrint.Prettyprinter.Doc
 import Text.PrettyPrint.Prettyprinter.Render.Terminal

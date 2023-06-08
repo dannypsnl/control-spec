@@ -1,5 +1,6 @@
 module Control.App.Spec
 
+import System
 import Control.App
 import public Control.App.Console
 import Data.String
@@ -77,6 +78,7 @@ reportFails fails = do
   for_ fails $ \(contexts, err) => do
     putContext 0 contexts
     primIO $ putDoc $ bold' $ color' Red $ prettyTestError err
+  primIO $ exitFailure
 
 export
 specFinalReport : Has [PrimIO, Spec] e => App e ()

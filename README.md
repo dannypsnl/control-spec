@@ -7,7 +7,7 @@ The project is a unit test framework for [idris2](https://idris2.readthedocs.io/
 ```shell
 git clone git@github.com:dannypsnl/control-spec.git
 cd control-spec && pack install control-spec
-# discover
+# install spec-discover
 pack install-app control-spec
 export PATH=${HOME}/.pack/bin
 ```
@@ -28,6 +28,8 @@ spec = describe "example" $ do
     it "1*1 = 1" $ 1*1 `shouldBe` 1
 ```
 
+#### `spec-discover`
+
 Then use `spec-discover` to generate all tests runner!
 
 ```shell
@@ -36,8 +38,11 @@ idris2 --build test/test.ipkg
 ./test/build/exec/runAllTests
 ```
 
-You might want to ignore `test/src/Main.idr` and `test/test.ipkg`. If you are using [pack](https://github.com/stefan-hoeck/idris2-pack#quick-installation), then you can just use below command to make it work!
+You might want to ignore `test/src/Main.idr` and `test/test.ipkg` in git repository.
+
+#### [pack](https://github.com/stefan-hoeck/idris2-pack#quick-installation) user
 
 ```shell
+spec-discover test/
 pack test <your-package>
 ```

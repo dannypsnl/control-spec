@@ -19,7 +19,7 @@ jobs:
         id: cache-pack-restore
         uses: actions/cache/restore@v3
         with:
-          path: $HOME/.pack
+          path: /home/runner/.pack
           key: ${{ runner.os }}
       - uses: Bogdanp/setup-racket@v1.10
         with:
@@ -28,7 +28,7 @@ jobs:
           variant: "CS"
           version: "stable"
       - name: install idris2-pack
-        if: steps.cache-pack.outputs.cache-hit != 'true'
+        if: steps.cache-pack-restore.outputs.cache-hit != 'true'
         run: |
           set -o pipefail
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/dannypsnl/idris2-pack/main/install.bash)"
@@ -38,7 +38,7 @@ jobs:
         id: cache-pack-save
         uses: actions/cache/save@v3
         with:
-          path: $HOME/.pack
+          path: /home/runner/.pack
           key: ${{ steps.cache-pack-restore.outputs.cache-primary-key }}
       - uses: actions/checkout@v3
       - name: Test

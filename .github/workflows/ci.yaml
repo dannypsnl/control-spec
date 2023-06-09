@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test
         run: |
-          echo "$HOME/.pack/bin" >> $GITHUB_PATH
+          echo /home/runner/.pack/bin >> $GITHUB_PATH
           source $HOME/.profile
           pack install-app control-spec
           spec-discover test

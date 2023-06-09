@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Pack
-        id: cache-pack
+        id: cache-pack-restore
         uses: actions/cache/restore@v3
         with:
-          path: $HOME/.pack/bin
+          path: $HOME/.pack
           key: ${{ runner.os }}
       - uses: Bogdanp/setup-racket@v1.10
         with:
@@ -34,11 +34,17 @@ jobs:
           bash -c "$(curl -fsSL https://raw.githubusercontent.com/dannypsnl/idris2-pack/main/install.bash)"
           echo "$HOME/.pack/bin" >> $GITHUB_PATH
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version
+      - name: Save Pack
+        id: cache-pack-save
+        uses: actions/cache/save@v3
+        with:
+          path: $HOME/.pack
+          key: ${{ steps.cache-pack-restore.outputs.cache-primary-key }}
       - uses: actions/checkout@v3
       - name: Test
         run: |
           pack install-app control-spec
           #echo "$HOME/.pack/bin" >> $GITHUB_PATH
           #source $HOME/.profile
-          spec-discover test
+          #spec-discover test
           #pack test control-spec

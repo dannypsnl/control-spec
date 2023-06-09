@@ -1,14 +1,26 @@
 on:
   push:
+    paths:
+      - "**.idr"
+      - "**.yaml"
   pull_request:
+    branches: [main]
 
 name: Run Tests
 
 jobs:
   test:
+    env:
+      DETECTED_SCHEME: racket
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Cache Pack
+        id: cache-pack-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: /home/runner/.pack
+          key: ${{ runner.os }}
       - uses: Bogdanp/setup-racket@v1.10
         with:
           architecture: "x64"
@@ -16,12 +28,22 @@ jobs:
           variant: "CS"
           version: "stable"
       - name: install idris2-pack
+        if: steps.cache-pack-restore.outputs.cache-hit != 'true'
         run: |
           set -o pipefail
-          export DETECTED_SCHEME=racket
-          bash -c "$(curl -fsSL https://raw.githubusercontent.com/stefan-hoeck/idris2-pack/main/install.bash)"
+          bash -c "$(curl -fsSL https://raw.githubusercontent.com/dannypsnl/idris2-pack/main/install.bash)"
           echo "$HOME/.pack/bin" >> $GITHUB_PATH
           echo | source $HOME/.profile && $HOME/.pack/bin/idris2 --version
+      - name: Save Pack
+        if: steps.cache-pack-restore.outputs.cache-hit != 'true'
+        id: cache-pack-save
+        uses: actions/cache/save@v3
+        with:
+          path: /home/runner/.pack
+          key: ${{ steps.cache-pack-restore.outputs.cache-primary-key }}
       - uses: actions/checkout@v3
       - name: Test
-        run: pack test control-spec
+        run: |
+          /home/runner/.pack/bin/pack install control-spec
+          ./build/exec/spec-discover test
+          # /home/runner/.pack/bin/pack test control-spec

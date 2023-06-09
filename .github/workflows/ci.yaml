@@ -22,6 +22,7 @@ jobs:
           path: /home/runner/.pack
           key: ${{ runner.os }}
       - uses: Bogdanp/setup-racket@v1.10
+        if: steps.cache-pack-restore.outputs.cache-hit != 'true'
         with:
           architecture: "x64"
           distribution: "full"

@@ -39,14 +39,14 @@ ipkgTest specs file = do
 
 entry : (PrimIO e , FileIO e) => List String -> App e ()
 entry [dir] = do
-  let fileTree = unsafePerformIO $ explore $ parse dir
-  let allFiles = files $ filter (\fn => "Spec.idr" `isSuffixOf` (fileName fn))
+  let fileTree = unsafePerformIO $ explore $ parse (dir </> "src")
+  let allFiles = files $ filter (\file => "Spec.idr" `isSuffixOf` (fileName file))
         (\_ => True)
         fileTree
   let specFiles = map fileName allFiles
   let specs = map (\s => fst $ String.break (== '.') s) specFiles
-  withFile "\{dir}/src/Main.idr" WriteTruncate putIOError (mainModule specs)
-  withFile "\{dir}/test.ipkg" WriteTruncate putIOError (ipkgTest specs)
+  withFile (dir </> "src" </> "Main.idr") WriteTruncate putIOError (mainModule specs)
+  withFile (dir </> "test.ipkg") WriteTruncate putIOError (ipkgTest specs)
 entry _ = primIO $ putDoc
   $ annotate bold
   $ annotate (color Red)
